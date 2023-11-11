@@ -15,6 +15,7 @@ PyChess is a fully interactive chess game built in Python, using the Pygame libr
 ### Prerequisites
 - Python 3.10 or higher
 - Pygame
+- Poetry
 
 ### Setup
 1. Clone the repository:
