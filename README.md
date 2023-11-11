@@ -25,6 +25,11 @@ PyChess is a fully interactive chess game built in Python, using the Pygame libr
    ```bash
    cd pychess
    ```
+   
+3. Install via poetry:
+   ```bash
+   poetry install
+   ```
 
 ### Running the Game
 Execute the main script to start the game:
