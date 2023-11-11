@@ -4,6 +4,7 @@ import pygame
 
 from board import Board
 from events import EventHandler
+from state import GameState
 
 # Initialize Pygame
 pygame.init()
@@ -28,7 +29,8 @@ def get_row_col_from_mouse(pos):
 def main():
     clock = pygame.time.Clock()
     board = Board()
-    event_handler = EventHandler(board)
+    game_state = GameState(board)
+    event_handler = EventHandler(board, game_state)
 
     run = True
     while run:

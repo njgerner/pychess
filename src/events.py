@@ -1,11 +1,13 @@
 import pygame
 
 from board import Board
+from state import GameState
 
 
 class EventHandler:
-    def __init__(self, board: Board):
+    def __init__(self, board: Board, game_state: GameState):
         self.board = board
+        self.game_state = game_state
 
     def handle_events(self, event_list):
         for event in event_list:
@@ -18,8 +20,12 @@ class EventHandler:
         pos = pygame.mouse.get_pos()
         row, col = self.get_row_col_from_mouse(pos)
         if self.board.selected_piece:
-            # Attempt to move the piece
-            self.board.move_piece(self.board.selected_piece, row, col)
+            if self.board.selected_piece.color == self.game_state.turn:  # Check if it's the correct turn
+                # Attempt to move the piece
+                move_valid = self.board.move_piece(self.board.selected_piece, row, col)
+                if move_valid:
+                    self.game_state.update_game_state()
+                    self.game_state.switch_turn()
             self.board.selected_piece = None
         else:
             self.board.selected_piece = self.board.get_piece(row, col)

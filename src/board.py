@@ -143,6 +143,31 @@ class Board:
                 return self.pieces[row][col]
         return None
 
+    def apply_move(self, move: tuple):
+        """
+        Apply the given move to the board
+
+        Args:
+            move (tuple): The move to apply
+
+        Returns:
+            None
+        """
+        logger.debug(f"Applying move {move}")
+        start_row, start_col, end_row, end_col = move
+        start_piece = self.get_piece(start_row, start_col)
+        end_piece = self.get_piece(end_row, end_col)
+
+        if start_piece and start_piece.color == "white":
+            # check if the end piece is an opponent's piece
+            if end_piece and end_piece.color == "black":
+                # remove the opponent's piece
+                self.pieces[end_row][end_col] = None
+            # move the piece
+            self.move_piece(start_piece, end_row, end_col)
+        else:
+            logger.warning("Invalid move")
+
     def move_piece(self, piece: Piece, row: int, col: int):
         """
         Move the given piece to the given row and col
