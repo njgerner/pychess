@@ -7,6 +7,7 @@ class Piece:
         self.row = row
         self.col = col
         self.img = self.load_img(img_path)
+        self.is_captured = False
 
     @staticmethod
     def load_img(img_path):
@@ -23,3 +24,6 @@ class Piece:
 
     def draw(self, win):
         win.blit(self.img, (self.col * 100, self.row * 100))
+
+    def captured(self):
+        self.is_captured = True

@@ -143,31 +143,6 @@ class Board:
                 return self.pieces[row][col]
         return None
 
-    def apply_move(self, move: tuple):
-        """
-        Apply the given move to the board
-
-        Args:
-            move (tuple): The move to apply
-
-        Returns:
-            None
-        """
-        logger.debug(f"Applying move {move}")
-        start_row, start_col, end_row, end_col = move
-        start_piece = self.get_piece(start_row, start_col)
-        end_piece = self.get_piece(end_row, end_col)
-
-        if start_piece and start_piece.color == "white":
-            # check if the end piece is an opponent's piece
-            if end_piece and end_piece.color == "black":
-                # remove the opponent's piece
-                self.pieces[end_row][end_col] = None
-            # move the piece
-            self.move_piece(start_piece, end_row, end_col)
-        else:
-            logger.warning("Invalid move")
-
     def move_piece(self, piece: Piece, row: int, col: int):
         """
         Move the given piece to the given row and col
@@ -181,20 +156,27 @@ class Board:
             None
         """
         logger.debug(f"Moving {piece} to {row}, {col}")
+
+        # check if there is a piece at the given row and col
+        target_piece = self.get_piece(row, col)
+        if target_piece and target_piece.color != piece.color:
+            self.capture_piece(target_piece)
+            target_piece.captured()
+
+        # swap the piece at the given row and col with the given piece
         self.pieces[piece.row][piece.col], self.pieces[row][col] = self.pieces[row][col], self.pieces[piece.row][
             piece.col]
         piece.move(row, col)
 
-    def select_piece(self, row: int, col: int):
+    def capture_piece(self, piece: Piece):
         """
-        Select the piece at the given row and col
+        Capture the piece at the given row and col
 
         Args:
-            row (int): The row of the piece to select
-            col (int): The column of the piece to select
+            piece (Piece): The piece to capture
 
         Returns:
             None
         """
-        logger.debug(f"Selecting piece at {row}, {col}")
-        self.selected_piece = self.get_piece(row, col)
+        logger.debug(f"Capturing {piece}")
+        self.pieces[piece.row][piece.col] = None
