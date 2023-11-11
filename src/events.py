@@ -22,10 +22,9 @@ class EventHandler:
         if self.board.selected_piece:
             if self.board.selected_piece.color == self.game_state.turn:  # Check if it's the correct turn
                 # Attempt to move the piece
-                move_valid = self.board.move_piece(self.board.selected_piece, row, col)
-                if move_valid:
-                    self.game_state.update_game_state()
-                    self.game_state.switch_turn()
+                self.board.move_piece(self.board.selected_piece, row, col)
+                self.game_state.update_game_state()
+                self.game_state.switch_turn()
             self.board.selected_piece = None
         else:
             self.board.selected_piece = self.board.get_piece(row, col)

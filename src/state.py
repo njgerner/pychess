@@ -11,13 +11,7 @@ class GameState:
     def switch_turn(self):
         self.turn = 'black' if self.turn == 'white' else 'white'
 
-    def update_game_state(self, move):
-        # Update the board with the move
-        self.board.apply_move(move)
-
-        # Check for and handle special moves (like pawn promotion, en passant, castling)
-        self.handle_special_moves(move)
-
+    def update_game_state(self):
         # Check for check, checkmate, and stalemate
         self.check = self.is_check()
         if self.check:
